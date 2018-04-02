@@ -1,28 +1,30 @@
 #include <string>
 #include <stdlib.h>
 #include <time.h>
-#include "DataReader.h"
 #include <set>
+#include "Agent.h"
+#include "DataReader.h"
 
 using namespace std;
 
 class Environment{
     private:
-        int state_x; // position x in the matrix
-        int state_y; // position y in the matrix
-        int n_size;  // max size in x of the map
-        int m_size;  // max size in y of the map
+        pair<int,int> state; // the position of the agent in the map
         char **map;  // matrix of chars that represent the map
+        QLearningAgent agent; // defined in Agent.c and Agent.h
+        Data data; // i/o manager
 
-    public:
-        Environment(int n_size,int m_size,char **map); // constructor
-        void ResetPosition(int n_size,int m_size); // Reset position randomly
-        void UpdateState(); // call the Update function of the class Agent so that he can decide the next move
-
-        int getReward(); // return the reward in the current state
+    private:
+        void SetRandomPosition(int n_size,int m_size); // Reset position randomly
+        pair<int,int> getNextState(int action); // return the next state given an action
+        int getReward(pair<int,int> state); // return the reward in the current state
         int getStateX(); // return the position x in the matrix of the map
         int getStateY(); // return the position y in the matrix of the map
-        set<string> getValidActions(); //return the set of actions that is possible to make in the current state
+        set<int> getValidActions(pair<int,int> state); // return the set of actions that is possible to make in the current state
+
+    public:
+        Environment(char **argv); // constructor
+        void UpdateState(); // call the Update function of the class Agent so that he can decide the next move        
 };
 
 
