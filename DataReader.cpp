@@ -2,6 +2,12 @@
 #include <stdio.h>
 #include "DataReader.h"
 
+#define acima 0
+#define abaixo 1
+#define esquerda 2
+#define direita 3
+
+
 using namespace std;
 
     void Data::setMap(){ // function that gets the map on the file
@@ -31,8 +37,12 @@ using namespace std;
         this->dir = argv[1]; // first argument given in the main file is the directory/name of the file where is the map
         this->learning_rate = atoi(argv[2]); // the second argument is the learning rate
         this->discount = atoi(argv[3]); // the third argument is the discount
-        this->num_iteractions = atoi(argv[4]); // the forth argument is the number of iterations that the agent can do
+        this->num_iterations = atoi(argv[4]); // the forth argument is the number of iterations that the agent can do
+        printf("Dir: %s\nLearning rate: %f\nDiscount: %f\nIterations: %i\n",this->dir,this->learning_rate,this->discount,this->num_iterations);
         this->setMap();
+    }
+    Data::Data(){
+        
     }
 
     char* Data::getDir(){
@@ -50,3 +60,68 @@ using namespace std;
     int Data::getLearning_rate(){
         return this->learning_rate;
     }
+
+    int Data::getWidth(){
+        return this->n_size;
+    }
+
+    int Data::getHeight(){
+        return this->m_size;
+    }
+
+    int Data::getNumIterations(){
+        return this->num_iterations;
+    }
+
+    void Data::WriteQValues(float ***Qvalue){
+        FILE *output;
+        output = fopen("q.txt","w");
+        for(int i = 0; i < this->n_size; i++){
+            for(int j = 0; j < this->m_size; j++){
+                fprintf(output,"%i,%i,direita,%f",i,j,Qvalue[i][j][direita]);
+                fprintf(output,"%i,%i,esquerda,%f",i,j,Qvalue[i][j][esquerda]);
+                fprintf(output,"%i,%i,acima,%f",i,j,Qvalue[i][j][acima]);
+                fprintf(output,"%i,%i,abaixo,%f",i,j,Qvalue[i][j][abaixo]);            
+            }
+        }
+    }
+    void Data::WritePolicy(float ***Qvalue){
+        FILE *output;
+        output = fopen("pi.txt","w");
+        int max = -INT32_MAX;
+        for(int i = 0; i < this->n_size; i++){
+            for(int j = 0; j < this->m_size; j++){
+                if(this->map[i][j] == '#'){
+                    fprintf(output,"#");
+                }
+                else if(this->map[i][j] == '0'){
+                    fprintf(output,"0");                    
+                }
+                else if(this->map[i][j] == '&'){
+                    fprintf(output,"&");                    
+                }
+                else{
+                    int max = -INT32_MAX;
+                    int action = 0;                
+                    for(int k = 0; k < 4; k++){
+                        if(Qvalue[i][j][k] >= max){
+                            max = Qvalue[i][j][k];
+                            action = k;
+                        }
+                    }
+                    if(action == acima){
+                        fprintf(output,"^");
+                    }
+                    if(action == abaixo){
+                        fprintf(output,"v");                        
+                    }
+                    if(action == direita){
+                        fprintf(output,">");                        
+                    }
+                    if(action == esquerda){
+                        fprintf(output,"<");                        
+                    }
+                }
+        }
+    }
+}

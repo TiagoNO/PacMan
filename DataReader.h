@@ -11,15 +11,22 @@ class Data{
         int discount; // discount rate
         int n_size; // width of the map
         int m_size; // height of the map
-        int num_iteractions; // the number os plays that the agent can do
+        int num_iterations; // the number os plays that the agent can do
 
     private:
         void setMap();
     
     public:
+        Data();
         Data(char **argv);
         char* getDir();
         char** getMap();
         int getDiscount();
         int getLearning_rate();
+        int getWidth();
+        int getHeight();
+        int getNumIterations();
+        void WriteQValues(float ***QValue);
+        void WritePolicy(float ***QValue);
+        //TODO: function to write logs and results
 };
