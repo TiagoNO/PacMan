@@ -1,10 +1,12 @@
 #include "Agent.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 #define acima 0
 #define abaixo 1
 #define esquerda 2
 #define direita 3
+#define max_int 2147483647
 
 QLearningAgent::QLearningAgent(){
 }
@@ -24,7 +26,7 @@ QLearningAgent::QLearningAgent(int map_width,int map_height){
 }
         
 int QLearningAgent::getAction(set<int> validActions,pair<int,int> state){
-    int max = -INT32_MAX;
+    int max = -max_int;
     int best_action = -1;
     for(set<int>::const_iterator i = validActions.begin(); i != validActions.end(); i++){
         if(this->Qvalue[state.first][state.second][(*i)] > max){
@@ -37,7 +39,7 @@ int QLearningAgent::getAction(set<int> validActions,pair<int,int> state){
 }
 
 float QLearningAgent::getBestQValue(set<int> validActions,pair<int,int> state){
-    int max = -INT32_MAX;
+    float max = -max_int;
     for(set<int>::const_iterator i = validActions.begin(); i != validActions.end(); i++){
         if(this->Qvalue[state.first][state.second][(*i)] > max){
             max = this->Qvalue[state.first][state.second][(*i)];
