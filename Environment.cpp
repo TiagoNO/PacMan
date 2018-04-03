@@ -1,21 +1,18 @@
 #include <string>
 #include <stdlib.h>
+#include <stdio.h>
 #include <time.h>
 #include <set>
 #include "Environment.h"
-#include "DataReader.h"
 
 #define acima 0
 #define abaixo 1
 #define esquerda 2
 #define direita 3
 
-using namespace std;
-
-
 Environment::Environment(char **argv){
     this->data = Data(argv); // Initialize Data (defined in DataReader.h and DataReader.c)
-    this->agent = QLearningAgent::QLearningAgent(this->data.getWidth(),this->data.getHeight()); //Initialize Agent (defined in Agent.c and Agent.h)
+    this->agent = QLearningAgent(this->data.getWidth(),this->data.getHeight()); //Initialize Agent (defined in Agent.c and Agent.h)
 
     srand(time(NULL));  // initialize seed
 
@@ -24,7 +21,7 @@ Environment::Environment(char **argv){
 }
         
 void Environment::SetRandomPosition(int n_size,int m_size){
-    set<pair<int,int>> Validpositions;
+    set<pair<int,int> > Validpositions;
     for(int i = 0; i < this->data.getWidth(); i++){
         for(int j = 0; j < this->data.getHeight(); j++){
             if(this->map[i][j] == '-'){
@@ -34,7 +31,7 @@ void Environment::SetRandomPosition(int n_size,int m_size){
     }
 
     int index = rand()%Validpositions.size();
-    set<pair<int,int>>::const_iterator newPosition; // select a random position in the set of valid positions
+    set<pair<int,int> >::const_iterator newPosition; // select a random position in the set of valid positions
     newPosition = Validpositions.begin();
     advance(newPosition,index);
 

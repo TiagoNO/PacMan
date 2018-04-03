@@ -25,10 +25,5 @@ class Environment{
     public:
         Environment(char **argv); // constructor
         void UpdateState(); // call the Update function of the class Agent so that he can decide the next move        
+
 };
-
-
-
-int main(){
-
-}
