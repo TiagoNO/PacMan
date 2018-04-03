@@ -3,7 +3,7 @@
 #include "Environment.h"
 
 
-int main(int agrc,char **argv){
+int main(int agrc,char *argv[]){
     Environment Simulator = Environment(argv);
     Simulator.UpdateState();
 }
