@@ -1,11 +1,14 @@
 #include <iostream>
 #include <stdio.h>
+#include <stdlib.h>
 #include "DataReader.h"
 
 #define acima 0
 #define abaixo 1
 #define esquerda 2
 #define direita 3
+
+#define max_int 2147483647
 
 
 using namespace std;
@@ -25,18 +28,23 @@ using namespace std;
             this->map[i] = (char *)malloc(this->m_size*sizeof(char));
         }
 
-            std::cout << "The size of the map is " << this->n_size << "x" << this->m_size << "." << endl;
-            for(int i = 0; i < this->n_size; i++){
-                fscanf(arq,"%s",this->map[i]);
-            }
-            std::cout << this->map << endl;
+        std::cout << "The size of the map is " << this->n_size << "x" << this->m_size << "." << endl;
+        for(int i = 0; i < this->n_size; i++){
+            fscanf(arq,"%s",this->map[i]);
         }
+        for(int i = 0; i < this->n_size; i++){
+            for(int j = 0; j < this->m_size; j++){
+                printf("%c",this->map[i][j]);
+            }
+            printf("\n");
+        }
+    }
 
     Data::Data(char **argv){
-        // constructor 
+        // constructor
         this->dir = argv[1]; // first argument given in the main file is the directory/name of the file where is the map
-        this->learning_rate = atoi(argv[2]); // the second argument is the learning rate
-        this->discount = atoi(argv[3]); // the third argument is the discount
+        this->learning_rate = atof(argv[2]); // the second argument is the learning rate
+        this->discount = atof(argv[3]); // the third argument is the discount
         this->num_iterations = atoi(argv[4]); // the forth argument is the number of iterations that the agent can do
         printf("Dir: %s\nLearning rate: %f\nDiscount: %f\nIterations: %i\n",this->dir,this->learning_rate,this->discount,this->num_iterations);
         this->setMap();
@@ -53,11 +61,11 @@ using namespace std;
         return this->map;
     }
 
-    int Data::getDiscount(){
+    float Data::getDiscount(){
         return this->discount;
     }
 
-    int Data::getLearning_rate(){
+    float Data::getLearning_rate(){
         return this->learning_rate;
     }
 
@@ -78,17 +86,17 @@ using namespace std;
         output = fopen("q.txt","w");
         for(int i = 0; i < this->n_size; i++){
             for(int j = 0; j < this->m_size; j++){
-                fprintf(output,"%i,%i,direita,%f",i,j,Qvalue[i][j][direita]);
-                fprintf(output,"%i,%i,esquerda,%f",i,j,Qvalue[i][j][esquerda]);
-                fprintf(output,"%i,%i,acima,%f",i,j,Qvalue[i][j][acima]);
-                fprintf(output,"%i,%i,abaixo,%f",i,j,Qvalue[i][j][abaixo]);            
+                fprintf(output,"%i,%i,direita,%f\n",i,j,Qvalue[i][j][direita]);
+                fprintf(output,"%i,%i,esquerda,%f\n",i,j,Qvalue[i][j][esquerda]);
+                fprintf(output,"%i,%i,acima,%f\n",i,j,Qvalue[i][j][acima]);
+                fprintf(output,"%i,%i,abaixo,%f\n",i,j,Qvalue[i][j][abaixo]);            
             }
         }
     }
     void Data::WritePolicy(float ***Qvalue){
         FILE *output;
         output = fopen("pi.txt","w");
-        int max = -INT32_MAX;
+        int max = -max_int;
         for(int i = 0; i < this->n_size; i++){
             for(int j = 0; j < this->m_size; j++){
                 if(this->map[i][j] == '#'){
@@ -101,7 +109,7 @@ using namespace std;
                     fprintf(output,"&");                    
                 }
                 else{
-                    int max = -INT32_MAX;
+                    int max = -max_int;
                     int action = 0;                
                     for(int k = 0; k < 4; k++){
                         if(Qvalue[i][j][k] >= max){
@@ -123,5 +131,6 @@ using namespace std;
                     }
                 }
         }
+        fprintf(output,"\n");
     }
 }
