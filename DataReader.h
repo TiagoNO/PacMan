@@ -10,6 +10,7 @@ class Data{
         int n_size; // width of the map
         int m_size; // height of the map
         int num_iterations; // the number os plays that the agent can do
+        FILE *arq; // FILE pointer for logs and debbug
 
     private:
         void setMap();

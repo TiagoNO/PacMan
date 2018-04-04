@@ -46,6 +46,8 @@ using namespace std;
         this->learning_rate = atof(argv[2]); // the second argument is the learning rate
         this->discount = atof(argv[3]); // the third argument is the discount
         this->num_iterations = atoi(argv[4]); // the forth argument is the number of iterations that the agent can do
+        //this->arq = fopen("data_log.txt","w");
+        
         printf("Dir: %s\nLearning rate: %f\nDiscount: %f\nIterations: %i\n",this->dir,this->learning_rate,this->discount,this->num_iterations);
         this->setMap();
     }
