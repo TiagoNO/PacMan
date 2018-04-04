@@ -13,6 +13,7 @@
 Environment::Environment(char **argv){
     this->data = Data(argv); // Initialize Data (defined in DataReader.h and DataReader.c)
     this->agent = QLearningAgent(this->data.getWidth(),this->data.getHeight()); //Initialize Agent (defined in Agent.c and Agent.h)
+    //this->arq = fopen("environment_log.txt","w");
 
     srand(time(NULL));  // initialize seed
 
