@@ -8,7 +8,7 @@
 #define esquerda 2
 #define direita 3
 
-#define max_int 2147483647
+#define max_float 214748
 
 
 using namespace std;
@@ -46,11 +46,12 @@ using namespace std;
         this->learning_rate = atof(argv[2]); // the second argument is the learning rate
         this->discount = atof(argv[3]); // the third argument is the discount
         this->num_iterations = atoi(argv[4]); // the forth argument is the number of iterations that the agent can do
-        //this->arq = fopen("data_log.txt","w");
+        //this->log = fopen("data_log.txt","w");
         
         printf("Dir: %s\nLearning rate: %f\nDiscount: %f\nIterations: %i\n",this->dir,this->learning_rate,this->discount,this->num_iterations);
         this->setMap();
     }
+    
     Data::Data(){
         
     }
@@ -98,7 +99,7 @@ using namespace std;
     void Data::WritePolicy(float ***Qvalue){
         FILE *output;
         output = fopen("pi.txt","w");
-        int max = -max_int;
+        int max = -max_float;
         for(int i = 0; i < this->n_size; i++){
             for(int j = 0; j < this->m_size; j++){
                 if(this->map[i][j] == '#'){
@@ -111,7 +112,7 @@ using namespace std;
                     fprintf(output,"&");                    
                 }
                 else{
-                    int max = -max_int;
+                    int max = -max_float;
                     int action = 0;                
                     for(int k = 0; k < 4; k++){
                         if(Qvalue[i][j][k] >= max){
