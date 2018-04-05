@@ -6,7 +6,7 @@ using namespace std;
 class QLearningAgent{
     private:
         float ***Qvalue; // matrix of Q-Values that map a 3-tuple(x,y,action) to a value
-        FILE *arq; // FILE pointer for logs and debbug
+        FILE *log; // FILE pointer for logs and debbug
     public:
         QLearningAgent();
         QLearningAgent(int map_width,int map_height); // constructor of the agent
