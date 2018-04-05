@@ -13,7 +13,7 @@ class Environment{
         char **map;  // matrix of chars that represent the map
         QLearningAgent agent; // defined in Agent.c and Agent.h
         Data data; // i/o manager
-        FILE *arq; // FILE pointer for logs and debbug
+        FILE *log; // FILE pointer for logs and debbug
 
     private:
         void SetRandomPosition(int n_size,int m_size); // Reset position randomly
