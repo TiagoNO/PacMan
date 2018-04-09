@@ -86,13 +86,14 @@ using namespace std;
 
     void Data::WriteQValues(float ***Qvalue){
         FILE *output;
+        float ***Q = Qvalue;
         output = fopen("q.txt","w");
         for(int i = 0; i < this->n_size; i++){
             for(int j = 0; j < this->m_size; j++){
-                fprintf(output,"%i,%i,direita,%f\n",i,j,Qvalue[i][j][direita]);
-                fprintf(output,"%i,%i,esquerda,%f\n",i,j,Qvalue[i][j][esquerda]);
-                fprintf(output,"%i,%i,acima,%f\n",i,j,Qvalue[i][j][acima]);
-                fprintf(output,"%i,%i,abaixo,%f\n",i,j,Qvalue[i][j][abaixo]);
+                fprintf(output,"%i,%i,direita,%f\n",i,j,Q[i][j][direita]);
+                fprintf(output,"%i,%i,esquerda,%f\n",i,j,Q[i][j][esquerda]);
+                fprintf(output,"%i,%i,acima,%f\n",i,j,Q[i][j][acima]);
+                fprintf(output,"%i,%i,abaixo,%f\n",i,j,Q[i][j][abaixo]);
             }
         }
     }
