@@ -47,13 +47,13 @@ using namespace std;
         this->discount = atof(argv[3]); // the third argument is the discount
         this->num_iterations = atoi(argv[4]); // the forth argument is the number of iterations that the agent can do
         //this->log = fopen("data_log.txt","w");
-        
+
         printf("Dir: %s\nLearning rate: %f\nDiscount: %f\nIterations: %i\n",this->dir,this->learning_rate,this->discount,this->num_iterations);
         this->setMap();
     }
-    
+
     Data::Data(){
-        
+
     }
 
     char* Data::getDir(){
@@ -92,30 +92,29 @@ using namespace std;
                 fprintf(output,"%i,%i,direita,%f\n",i,j,Qvalue[i][j][direita]);
                 fprintf(output,"%i,%i,esquerda,%f\n",i,j,Qvalue[i][j][esquerda]);
                 fprintf(output,"%i,%i,acima,%f\n",i,j,Qvalue[i][j][acima]);
-                fprintf(output,"%i,%i,abaixo,%f\n",i,j,Qvalue[i][j][abaixo]);            
+                fprintf(output,"%i,%i,abaixo,%f\n",i,j,Qvalue[i][j][abaixo]);
             }
         }
     }
     void Data::WritePolicy(float ***Qvalue){
         FILE *output;
         output = fopen("pi.txt","w");
-        int max = -max_float;
         for(int i = 0; i < this->n_size; i++){
             for(int j = 0; j < this->m_size; j++){
                 if(this->map[i][j] == '#'){
                     fprintf(output,"#");
                 }
                 else if(this->map[i][j] == '0'){
-                    fprintf(output,"0");                    
+                    fprintf(output,"0");
                 }
                 else if(this->map[i][j] == '&'){
-                    fprintf(output,"&");                    
+                    fprintf(output,"&");
                 }
                 else{
-                    int max = -max_float;
-                    int action = 0;                
+                    float max = -max_float;
+                    int action = 0;
                     for(int k = 0; k < 4; k++){
-                        if(Qvalue[i][j][k] >= max){
+                        if(Qvalue[i][j][k] > max){
                             max = Qvalue[i][j][k];
                             action = k;
                         }
@@ -124,13 +123,13 @@ using namespace std;
                         fprintf(output,"^");
                     }
                     if(action == abaixo){
-                        fprintf(output,"v");                        
+                        fprintf(output,"v");
                     }
                     if(action == direita){
-                        fprintf(output,">");                        
+                        fprintf(output,">");
                     }
                     if(action == esquerda){
-                        fprintf(output,"<");                        
+                        fprintf(output,"<");
                     }
                 }
         }

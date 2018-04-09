@@ -75,7 +75,7 @@ void Environment::UpdateState(){
 
         pair<int,int> nextState = this->getNextState(action_taken); // get the next state given the action of the agent        
         set<int> nextValidActions = this->getValidActions(nextState); // get all the valid actions in the next state
-        int maxValueNextState = this->agent.getBestQValue(nextValidActions,nextState); // get the max value of the next state
+        float maxValueNextState = this->agent.getBestQValue(nextValidActions,nextState); // get the max value of the next state
 
         this->agent.Update(this->state,nextState,action_taken,this->getReward(nextState),maxValueNextState,this->data.getDiscount(),this->data.getLearning_rate());
                         // call this fuction so the agent could  update the Q() function based in the reward (defined in Agent.c and Agent.h)
