@@ -22,7 +22,7 @@ QLearningAgent::QLearningAgent(int map_width,int map_height){
         {
             this->Qvalue[i][j] = (float *)malloc(4*sizeof(float));
             for(int k = 0; k < 4; k++){
-                this->Qvalue[i][j][k] == 0;
+                this->Qvalue[i][j][k] = 0.0;
             }
         }
     }
@@ -37,7 +37,10 @@ int QLearningAgent::getAction(set<int> validActions,pair<int,int> state){
             best_action = (*i);
         }
     }
-    fprintf(this->log,"At state (%i,%i) the best action found was %i\n",state.first,state.second,best_action);
+//    printf("At state (%i,%i) the best action found was %i\n",state.first,state.second,best_action);
+    fprintf(this->log,"At state (%i,%i) the best action found was %i",state.first,state.second,best_action);
+    fprintf(this->log,"{%f,%f,%f,%f}\n",this->Qvalue[state.first][state.second][0],this->Qvalue[state.first][state.second][1],this->Qvalue[state.first][state.second][2]
+    ,this->Qvalue[state.first][state.second][3]);
     return best_action;
 }
 
@@ -54,6 +57,8 @@ float QLearningAgent::getBestQValue(set<int> validActions,pair<int,int> state){
 
 void QLearningAgent::Update(pair<int,int> state,pair<int,int> nextState,int action,float reward,float NextQValue,float discount,float learning_rate){
     this->Qvalue[state.first][state.second][action] += (float) learning_rate*(reward + discount*NextQValue - this->Qvalue[state.first][state.second][action]);
+//    printf("Q[%i][%i][%i] = %f\n",state.first,state.second,action,this->Qvalue[state.first][state.second][action]);
+    fprintf(this->log,"learning_r: %f,reward: %f,discount: %f,NextQValue: %f,Q[state] : %f\n",learning_rate,reward,discount,NextQValue,this->Qvalue[state.first][state.second][action]);
     fprintf(this->log,"Q[%i][%i][%i] = %f\n",state.first,state.second,action,this->Qvalue[state.first][state.second][action]);
 }
 
