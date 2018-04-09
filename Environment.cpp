@@ -23,6 +23,7 @@ Environment::Environment(char **argv){
         
 void Environment::SetRandomPosition(int n_size,int m_size){
     set<pair<int,int> > Validpositions;
+
     for(int i = 0; i < this->data.getWidth(); i++){
         for(int j = 0; j < this->data.getHeight(); j++){
             if(this->map[i][j] == '-'){
@@ -42,25 +43,33 @@ void Environment::SetRandomPosition(int n_size,int m_size){
 
 pair<int,int> Environment::getNextState(int action){
     if(action == acima){
-        if(this->map[this->state.first - 1][this->state.second] == '*'){ // if its a wall, we stay where we are
+        printf("%c %c\n",this->map[this->state.first][this->state.second],this->map[this->state.first - 1][this->state.second]);
+        if(this->map[this->state.first - 1][this->state.second] == '#'){ // if its a wall, we stay where we are
+            printf("WALL!! (%i,%i)\n",this->state.first,this->state.second);
             return this->state;
         }
         return make_pair(this->state.first - 1,this->state.second);
     }
     else if(action == abaixo){
-        if(this->map[this->state.first + 1][this->state.second] == '*'){
+        printf("%c %c\n",this->map[this->state.first][this->state.second],this->map[this->state.first+1][this->state.second]);
+        if(this->map[this->state.first + 1][this->state.second] == '#'){
+            printf("WALL!! (%i,%i)\n",this->state.first,this->state.second);
             return this->state;
         }
         return make_pair(this->state.first + 1,this->state.second);        
     }
     else if(action == esquerda){
-        if(this->map[this->state.first][this->state.second - 1] == '*'){
+        printf("%c %c\n",this->map[this->state.first][this->state.second],this->map[this->state.first][this->state.second-1]);
+        if(this->map[this->state.first][this->state.second - 1] == '#'){
+            printf("WALL!! (%i,%i)\n",this->state.first,this->state.second);
             return this->state;
         }
         return make_pair(this->state.first,this->state.second - 1); // set the new state based in the action given 
     }
     else if(action == direita){
-        if(this->map[this->state.first][this->state.second + 1] == '*'){
+        printf("%c %c\n",this->map[this->state.first][this->state.second],this->map[this->state.first][this->state.second+1]);
+        if(this->map[this->state.first][this->state.second + 1] == '#'){
+            printf("WALL!! (%i,%i)\n",this->state.first,this->state.second);
             return this->state;
         }
         return make_pair(this->state.first,this->state.second + 1);        
@@ -74,11 +83,12 @@ void Environment::UpdateState(){
         int action_taken = this->agent.getAction(validActions,this->state); // get the action that the agent took (defined in Agent.c and Agent.h)
 
         pair<int,int> nextState = this->getNextState(action_taken); // get the next state given the action of the agent        
+        printf("(%i)->(%i,%i)\n",action_taken,nextState.first,nextState.second);
         set<int> nextValidActions = this->getValidActions(nextState); // get all the valid actions in the next state
         float maxValueNextState = this->agent.getBestQValue(nextValidActions,nextState); // get the max value of the next state
-
         this->agent.Update(this->state,nextState,action_taken,this->getReward(nextState),maxValueNextState,this->data.getDiscount(),this->data.getLearning_rate());
                         // call this fuction so the agent could  update the Q() function based in the reward (defined in Agent.c and Agent.h)
+        setNextState(nextState); // set the next state or if its a final state resets with a random position
     }
     this->data.WriteQValues(this->agent.getQValues());
     this->data.WritePolicy(this->agent.getQValues());
@@ -86,15 +96,19 @@ void Environment::UpdateState(){
 
 int Environment::getReward(pair<int,int> state){
     if(map[state.first][state.second] == '-'){ // an empty space, that fine, keep moving!
+        printf("-1");
         return -1;
     }
     else if(map[state.first][state.second] == '0'){ // found the prize! yammy!
+        printf("10");
         return 10;
-        SetRandomPosition(this->data.getWidth(),this->data.getHeight()); // reset the position in a random place
     }
     else if(map[state.first][state.second] == '&'){ // oh no! Call the ghostbusters! We found a ghost!
+        printf("-10");
         return -10;
-        SetRandomPosition(this->data.getWidth(),this->data.getHeight()); // reset the position in a random place
+    }
+    else{
+        return -1;
     }
 }
 
@@ -121,4 +135,13 @@ set<int> Environment::getValidActions(pair<int,int> state){
         actions.insert(direita);
     }
     return actions;
+}
+
+void Environment::setNextState(pair<int,int> nextState){
+    if(this->map[nextState.first][nextState.second] == '0' || this->map[nextState.first][nextState.second] == '&'){
+        SetRandomPosition(this->data.getWidth(),this->data.getHeight()); // set the agent in a valid random position in the map
+    }
+    else{
+        this->state = nextState;
+    }
 }

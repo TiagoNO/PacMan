@@ -22,6 +22,7 @@ class Environment{
         int getStateX(); // return the position x in the matrix of the map
         int getStateY(); // return the position y in the matrix of the map
         set<int> getValidActions(pair<int,int> state); // return the set of actions that is possible to make in the current state
+        void setNextState(pair<int,int> nextState);
 
     public:
         Environment(char **argv); // constructor
