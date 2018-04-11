@@ -43,33 +43,33 @@ void Environment::SetRandomPosition(int n_size,int m_size){
 
 pair<int,int> Environment::getNextState(int action){
     if(action == acima){
-        printf("%c %c\n",this->map[this->state.first][this->state.second],this->map[this->state.first - 1][this->state.second]);
+        //printf("%c %c\n",this->map[this->state.first][this->state.second],this->map[this->state.first - 1][this->state.second]);
         if(this->map[this->state.first - 1][this->state.second] == '#'){ // if its a wall, we stay where we are
-            printf("WALL!! (%i,%i)\n",this->state.first,this->state.second);
+            //printf("WALL!! (%i,%i)\n",this->state.first,this->state.second);
             return this->state;
         }
         return make_pair(this->state.first - 1,this->state.second);
     }
     else if(action == abaixo){
-        printf("%c %c\n",this->map[this->state.first][this->state.second],this->map[this->state.first+1][this->state.second]);
+        //printf("%c %c\n",this->map[this->state.first][this->state.second],this->map[this->state.first+1][this->state.second]);
         if(this->map[this->state.first + 1][this->state.second] == '#'){
-            printf("WALL!! (%i,%i)\n",this->state.first,this->state.second);
+            //printf("WALL!! (%i,%i)\n",this->state.first,this->state.second);
             return this->state;
         }
         return make_pair(this->state.first + 1,this->state.second);        
     }
     else if(action == esquerda){
-        printf("%c %c\n",this->map[this->state.first][this->state.second],this->map[this->state.first][this->state.second-1]);
+        //printf("%c %c\n",this->map[this->state.first][this->state.second],this->map[this->state.first][this->state.second-1]);
         if(this->map[this->state.first][this->state.second - 1] == '#'){
-            printf("WALL!! (%i,%i)\n",this->state.first,this->state.second);
+            //printf("WALL!! (%i,%i)\n",this->state.first,this->state.second);
             return this->state;
         }
         return make_pair(this->state.first,this->state.second - 1); // set the new state based in the action given 
     }
     else if(action == direita){
-        printf("%c %c\n",this->map[this->state.first][this->state.second],this->map[this->state.first][this->state.second+1]);
+        //printf("%c %c\n",this->map[this->state.first][this->state.second],this->map[this->state.first][this->state.second+1]);
         if(this->map[this->state.first][this->state.second + 1] == '#'){
-            printf("WALL!! (%i,%i)\n",this->state.first,this->state.second);
+            //printf("WALL!! (%i,%i)\n",this->state.first,this->state.second);
             return this->state;
         }
         return make_pair(this->state.first,this->state.second + 1);        
@@ -78,12 +78,12 @@ pair<int,int> Environment::getNextState(int action){
 
 void Environment::UpdateState(){
     for(int i = 0; i < this->data.getNumIterations(); i++){
-        printf("Iteration: %i\n",i);
+        //printf("Iteration: %i\n",i);
         set<int> validActions = this->getValidActions(this->state); // get all valid actions given the current state of the agent
         int action_taken = this->agent.getAction(validActions,this->state); // get the action that the agent took (defined in Agent.c and Agent.h)
 
         pair<int,int> nextState = this->getNextState(action_taken); // get the next state given the action of the agent        
-        printf("(%i)->(%i,%i)\n",action_taken,nextState.first,nextState.second);
+        //printf("(%i)->(%i,%i)\n",action_taken,nextState.first,nextState.second);
         set<int> nextValidActions = this->getValidActions(nextState); // get all the valid actions in the next state
         float maxValueNextState = this->agent.getBestQValue(nextValidActions,nextState); // get the max value of the next state
         this->agent.Update(this->state,nextState,action_taken,this->getReward(nextState),maxValueNextState,this->data.getDiscount(),this->data.getLearning_rate());
@@ -96,15 +96,15 @@ void Environment::UpdateState(){
 
 int Environment::getReward(pair<int,int> state){
     if(map[state.first][state.second] == '-'){ // an empty space, that fine, keep moving!
-        printf("-1");
+        //printf("-1");
         return -1;
     }
     else if(map[state.first][state.second] == '0'){ // found the prize! yammy!
-        printf("10");
+        //printf("10");
         return 10;
     }
     else if(map[state.first][state.second] == '&'){ // oh no! Call the ghostbusters! We found a ghost!
-        printf("-10");
+        //printf("-10");
         return -10;
     }
     else{

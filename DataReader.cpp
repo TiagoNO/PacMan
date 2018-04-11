@@ -32,12 +32,6 @@ using namespace std;
         for(int i = 0; i < this->n_size; i++){
             fscanf(arq,"%s",this->map[i]);
         }
-        for(int i = 0; i < this->n_size; i++){
-            for(int j = 0; j < this->m_size; j++){
-                printf("%c",this->map[i][j]);
-            }
-            printf("\n");
-        }
     }
 
     Data::Data(char **argv){
