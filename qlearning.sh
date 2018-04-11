@@ -17,4 +17,3 @@ else
     echo "Finished compilation, lets get started!"
 fi
 time ./qlearning $1 $2 $3 $4
-sleep 5
