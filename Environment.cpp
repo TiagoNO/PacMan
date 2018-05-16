@@ -1,18 +1,21 @@
-#include <string>
-#include <stdlib.h>
-#include <stdio.h>
-#include <time.h>
-#include <set>
 #include "Environment.h"
 
 #define acima 0
 #define abaixo 1
 #define esquerda 2
 #define direita 3
+#define regular_q_learning 0
+#define simple_feature 1
 
 Environment::Environment(char **argv){
     this->data = Data(argv); // Initialize Data (defined in DataReader.h and DataReader.c)
-    this->agent = QLearningAgent(this->data.getWidth(),this->data.getHeight()); //Initialize Agent (defined in Agent.c and Agent.h)
+    this->feature = new Features(this->data.getMap());
+//    if(this->data.agent_type[0] == 'a'){
+    this->agent = new ApproximateAgent(this->data.getWidth(),this->data.getHeight(),this->feature); //Initialize Approximate Agent (defined in Agent.c and Agent.h)
+//    }
+//    else{
+//        this->agent = new QLearningAgent(this->data.getWidth(),this->data.getHeight()); //Initialize Agent (defined in Agent.c and Agent.h)
+//    }
     //this->arq = fopen("environment_log.txt","w");
 
     srand(time(NULL));  // initialize seed
@@ -80,18 +83,18 @@ void Environment::UpdateState(){
     for(int i = 0; i < this->data.getNumIterations(); i++){
         //printf("Iteration: %i\n",i);
         set<int> validActions = this->getValidActions(this->state); // get all valid actions given the current state of the agent
-        int action_taken = this->agent.getAction(validActions,this->state); // get the action that the agent took (defined in Agent.c and Agent.h)
+        int action_taken = this->agent->getAction(validActions,this->state); // get the action that the agent took (defined in Agent.c and Agent.h)
 
         pair<int,int> nextState = this->getNextState(action_taken); // get the next state given the action of the agent        
         //printf("(%i)->(%i,%i)\n",action_taken,nextState.first,nextState.second);
         set<int> nextValidActions = this->getValidActions(nextState); // get all the valid actions in the next state
-        float maxValueNextState = this->agent.getBestQValue(nextValidActions,nextState); // get the max value of the next state
-        this->agent.Update(this->state,nextState,action_taken,this->getReward(nextState),maxValueNextState,this->data.getDiscount(),this->data.getLearning_rate());
+        float maxValueNextState = this->agent->getBestQValue(nextValidActions,nextState); // get the max value of the next state
+        this->agent->Update(this->state,nextState,action_taken,this->getReward(nextState),maxValueNextState,this->data.getDiscount(),this->data.getLearning_rate());
                         // call this fuction so the agent could  update the Q() function based in the reward (defined in Agent.c and Agent.h)
         setNextState(nextState); // set the next state or if its a final state resets with a random position
     }
-    this->data.WriteQValues(this->agent.getQValues());
-    this->data.WritePolicy(this->agent.getQValues());
+    this->data.WriteQValues(this->agent->getQValues());
+    this->data.WritePolicy(this->agent->getQValues());
 }
 
 int Environment::getReward(pair<int,int> state){
