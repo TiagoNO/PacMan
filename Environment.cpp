@@ -9,7 +9,7 @@
 
 Environment::Environment(char **argv){
     this->data = Data(argv); // Initialize Data (defined in DataReader.h and DataReader.c)
-    this->feature = new Features(this->data.getMap());
+    this->feature = new Features(this->data.getMap(),data.getWidth(),data.getHeight());
 //    if(this->data.agent_type[0] == 'a'){
     this->agent = new ApproximateAgent(this->data.getWidth(),this->data.getHeight(),this->feature); //Initialize Approximate Agent (defined in Agent.c and Agent.h)
 //    }
