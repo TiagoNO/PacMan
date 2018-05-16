@@ -7,8 +7,10 @@ Features::Features(){
     
 }
 
-Features::Features(char **map){
+Features::Features(char **map,int map_width,int map_height){
     this->map = map;
+    this->map_w = map_width;
+    this->map_h = map_height;
 }
 
 int Features::getGhostsOneStepAway(pair<int,int> state){
@@ -96,9 +98,11 @@ void Features::getFeatures(pair<int,int> initial_state){
         this->features["#-of-ghosts-1-step-away"] = getGhostsOneStepAway(initial_state);
         int dist = closestFood(initial_state);
         if (dist != -1){
-            this->features["food"] = dist;
+            this->features["food"] = dist/(this->map_h*this->map_w);
         }
-        std::cout << this->features["food"] << endl;
+        else{
+            this->features["food"] = 0.0;
+        }
 }
 
 std::set<string> Features::getFeaturesKeys(){
