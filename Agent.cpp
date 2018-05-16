@@ -1,6 +1,4 @@
 #include "Agent.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 #define acima 0
 #define abaixo 1
