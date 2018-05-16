@@ -28,6 +28,7 @@ class Data{
         int getWidth();
         int getHeight();
         int getNumIterations();
+        char* agent_type;
         void WriteQValues(float ***QValue);
         void WritePolicy(float ***QValue);
 };

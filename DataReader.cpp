@@ -1,6 +1,4 @@
 #include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
 #include "DataReader.h"
 
 #define acima 0
@@ -40,6 +38,7 @@ using namespace std;
         this->learning_rate = atof(argv[2]); // the second argument is the learning rate
         this->discount = atof(argv[3]); // the third argument is the discount
         this->num_iterations = atoi(argv[4]); // the forth argument is the number of iterations that the agent can do
+        this->agent_type = argv[5];
         //this->log = fopen("data_log.txt","w");
 
         printf("Dir: %s\nLearning rate: %f\nDiscount: %f\nIterations: %i\n",this->dir,this->learning_rate,this->discount,this->num_iterations);
