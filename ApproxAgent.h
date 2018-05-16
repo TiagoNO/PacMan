@@ -24,6 +24,6 @@ class ApproximateAgent:public QLearningAgent{
             }
 
             this->Qvalue[state.first][state.second][action] = result;
-//            printf("%i\n",this->Qvalue[state.first][state.second][action]);
+            printf("%f\n",this->Qvalue[state.first][state.second][action]);
         }
 };
