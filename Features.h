@@ -3,6 +3,11 @@
 #include <string>
 #include <map>
 
+#define acima 0
+#define abaixo 1
+#define esquerda 2
+#define direita 3
+
 using namespace std;
 
 class Features{
@@ -19,6 +24,8 @@ class Features{
         int getGhostsOneStepAway(pair<int,int> state);
         int add_valid_neighbors(std::list<pair<pair<int,int>,int> > *frontier,std::set<pair<int,int> > explored,std::pair<pair<int,int>,int> state);
         int closestFood(pair<int,int> initial_state);
-        void getFeatures(pair<int,int> initial_state);
+        void getFeatures(pair<int,int> initial_state,int action);
+        pair<int,int> calculateNextState(pair<int,int> initial_state,int action);
         std::set<string> getFeaturesKeys();
+        bool isValid(pair<int,int> initial_state);
 };

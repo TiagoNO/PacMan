@@ -11,7 +11,7 @@ class ApproximateAgent:public QLearningAgent{
         ApproximateAgent();
         ApproximateAgent(int map_width,int map_height,Features *features);
         void Update(pair<int,int> state,pair<int,int> nextState,int action,float reward,float NextQValue,float discount,float learning_rate){
-            this->feature->getFeatures(state);
+            this->feature->getFeatures(state,action);
             float difference = (float) learning_rate*(reward + discount*NextQValue - this->Qvalue[state.first][state.second][action]);
 
             std::set<string> f = this->feature->getFeaturesKeys();
@@ -21,9 +21,9 @@ class ApproximateAgent:public QLearningAgent{
                 this->weights[(*i)] += difference*this->feature->features[(*i)];
 //                 printf("%f %f\n",this->weights[(*i)],this->feature->features[(*i)]);
                 result += this->weights[(*i)]*this->feature->features[(*i)];
-                printf("weight[%s] = %f\nfeature[%s] = %f\nresult = %f\nstate:(%i,%i)\n\n",(*i).c_str(),this->weights[(*i)],(*i).c_str(),this->feature->features[(*i)],result,state.first,state.second);
+                printf("weight[%s] = %f\nfeature[%s] = %f\nresult = %f\nstate:(%i,%i)\n",(*i).c_str(),this->weights[(*i)],(*i).c_str(),this->feature->features[(*i)],result,state.first,state.second);
             }
-
+            printf("\n");
             this->Qvalue[state.first][state.second][action] = result;
             //printf("%f\n",this->Qvalue[state.first][state.second][action]);
         }
