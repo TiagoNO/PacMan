@@ -84,34 +84,29 @@ bool Features::isValid(pair<int,int> initial_state){
             return true;
         }
     }
-    return false;
+    return true;
 }
 
 int Features::closestFood(pair<int,int> initial_state){
     std::list<pair<pair<int,int>,int> > frontier;
     std::set<pair<int,int> > explored;
     std::pair<pair<int,int>,int> state;
-
-    if(isValid(initial_state)){
-        frontier.push_front(make_pair(initial_state,0));
-
-        while(frontier.size() > 0){
-            state = frontier.front();
-            frontier.pop_front();
-            if(explored.find(state.first) != explored.end()){
-                continue;
-            }
-            explored.insert(state.first);
-            if(this->map[state.first.first][state.first.second] == '0'){
-    //            printf("\n\n%i,%i\n\n",state.first.first,state.first.second);
-                return state.second;
-            }
-            add_valid_neighbors(&frontier,explored,state);
-    /*        for(std::list<pair<pair<int,int>,int> >::const_iterator i = frontier.begin(); i != frontier.end(); i++){
-                printf("(%i,%i,%i) ",i->first.first,i->first.second,i->second);
-            }
-            printf("\n");
-    */    }
+    char a;
+    frontier.push_front(make_pair(initial_state,0));
+    
+    while(frontier.size() > 0){
+        state = frontier.front();
+        //printf("State(search): (%i,%i,%i)\n",state.first.first,state.first.second,state.second);
+        frontier.pop_front();
+        if(explored.find(state.first) != explored.end()){
+            continue;
+        }
+        explored.insert(state.first);
+        if(this->map[state.first.first][state.first.second] == '0'){
+        //    printf("%i,%i",state.first.first,state.first.second);
+            return state.second;
+        }
+        add_valid_neighbors(&frontier,explored,state);
     }
     return -1;
 }
@@ -137,10 +132,9 @@ void Features::getFeatures(pair<int,int> initial_state,int action){
         pair<int,int> nextState = calculateNextState(initial_state,action);
         this->features["bias"] = 1.0;
         float dist = closestFood(nextState);
-        dist = dist/(this->map_h*this->map_w);
         if (dist != -1){
-            printf("dist: %f\n",dist);
-            this->features["food"] = dist;
+            //printf("dist: %f\n",dist);
+            this->features["food"] = dist/(this->map_h*this->map_w);
         }
 }
 
