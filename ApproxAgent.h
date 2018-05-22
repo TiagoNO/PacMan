@@ -10,20 +10,27 @@ class ApproximateAgent:public QLearningAgent{
     public:
         ApproximateAgent();
         ApproximateAgent(int map_width,int map_height,Features *features);
-        void Update(pair<int,int> state,pair<int,int> nextState,int action,float reward,float NextQValue,float discount,float learning_rate){
+
+        float getQvalue(pair<int,int> state,int action){
             this->feature->getFeatures(state,action);
-            float difference = (float) learning_rate*(reward + discount*NextQValue - this->Qvalue[state.first][state.second][action]);
+            float result = 0.0;
+            std::set<string> f = this->feature->getFeaturesKeys();
+            for(std::set<string>::const_iterator i = f.begin(); i != f.end(); i++){
+                result += this->weights[(*i)]*this->feature->features[(*i)];
+            }            
+            this->Qvalue[state.first][state.second][action] = result;
+        }
+
+        void Update(pair<int,int> state,pair<int,int> nextState,int action,float reward,float NextQValue,float discount,float learning_rate){
+            printf("State:(%i,%i)\nReward:%f\n\n",state.first,state.second,reward);
+            float difference = (float) learning_rate*(reward + discount*NextQValue - this->getQvalue(state,action));
 
             std::set<string> f = this->feature->getFeaturesKeys();
             float result = 0;
-//            printf("Difference: %f\n",difference);
             for(std::set<string>::const_iterator i = f.begin(); i != f.end(); i++){
                 this->weights[(*i)] += difference*this->feature->features[(*i)];
-//                 printf("%f %f\n",this->weights[(*i)],this->feature->features[(*i)]);
                 result += this->weights[(*i)]*this->feature->features[(*i)];
-                printf("weight[%s] = %f\nfeature[%s] = %f\nresult = %f\nstate:(%i,%i)\n",(*i).c_str(),this->weights[(*i)],(*i).c_str(),this->feature->features[(*i)],result,state.first,state.second);
             }
-            printf("\n");
             this->Qvalue[state.first][state.second][action] = result;
             //printf("%f\n",this->Qvalue[state.first][state.second][action]);
         }
