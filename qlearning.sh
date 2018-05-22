@@ -3,6 +3,7 @@ echo "Map: $1"
 echo "Learning rate: $2"
 echo "Discount rate: $3"
 echo "Iterations: $4"
+echo "Agent: $5"
 FILE=qlearning
 DIR="${PWD}"
 #if test -f "$DIR/$FILE";
@@ -17,6 +18,7 @@ DIR="${PWD}"
 #    echo "Finished compilation, lets get started!"
 #fi
 
-g++ -o qlearning Simulador.cpp DataReader.cpp DataReader.h Agent.cpp Agent.h Environment.cpp Environment.h ApproxAgent.h ApproxAgent.cpp Features.h Features.cpp
-chmod +x qlearning
+#g++ -o qlearning Simulador.cpp DataReader.cpp DataReader.h Agent.cpp Agent.h Environment.cpp Environment.h ApproxAgent.h ApproxAgent.cpp Features.h Features.cpp
+#chmod +x qlearning
 time ./qlearning $1 $2 $3 $4 $5
+sleep 15

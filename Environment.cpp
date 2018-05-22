@@ -10,12 +10,15 @@
 Environment::Environment(char **argv){
     this->data = Data(argv); // Initialize Data (defined in DataReader.h and DataReader.c)
     this->feature = new Features(this->data.getMap(),data.getWidth(),data.getHeight());
-//    if(this->data.agent_type[0] == 'a'){
-    this->agent = new ApproximateAgent(this->data.getWidth(),this->data.getHeight(),this->feature); //Initialize Approximate Agent (defined in Agent.c and Agent.h)
-//    }
-//    else{
-//        this->agent = new QLearningAgent(this->data.getWidth(),this->data.getHeight()); //Initialize Agent (defined in Agent.c and Agent.h)
-//    }
+    printf("%c",this->data.agent_type[0]);
+    if(this->data.agent_type[0] == 'A'){
+        printf("Using Approximate q-learning agent\n");
+        this->agent = new ApproximateAgent(this->data.getWidth(),this->data.getHeight(),this->feature); //Initialize Approximate Agent (defined in Agent.c and Agent.h)
+    }
+    else if (this->data.agent_type[0] == 'Q'){
+        printf("Using q-learning agent\n");
+        this->agent = new QLearningAgent(this->data.getWidth(),this->data.getHeight()); //Initialize Agent (defined in Agent.c and Agent.h)
+    }
     //this->arq = fopen("environment_log.txt","w");
 
     srand(time(NULL));  // initialize seed
