@@ -53,8 +53,13 @@ float QLearningAgent::getBestQValue(set<int> validActions,pair<int,int> state){
     return max;
 }
 
+float QLearningAgent::getQvalue(pair<int,int> state,int action){
+    return this->Qvalue[state.first][state.second][action];
+}
+
+
 void QLearningAgent::Update(pair<int,int> state,pair<int,int> nextState,int action,float reward,float NextQValue,float discount,float learning_rate){
-    this->Qvalue[state.first][state.second][action] += (float) learning_rate*(reward + discount*NextQValue - this->Qvalue[state.first][state.second][action]);
+    this->Qvalue[state.first][state.second][action] += (float) learning_rate*(reward + discount*NextQValue - this->getQvalue(state,action));
 //    printf("Q[%i][%i][%i] = %f\n",state.first,state.second,action,this->Qvalue[state.first][state.second][action]);
     fprintf(this->log,"learning_r: %f,reward: %f,discount: %f,NextQValue: %f,Q[state] : %f\n",learning_rate,reward,discount,NextQValue,this->Qvalue[state.first][state.second][action]);
     fprintf(this->log,"Q[%i][%i][%i] = %f\n",state.first,state.second,action,this->Qvalue[state.first][state.second][action]);
