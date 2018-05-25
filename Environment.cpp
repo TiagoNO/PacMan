@@ -84,7 +84,7 @@ pair<int,int> Environment::getNextState(int action){
 
 void Environment::UpdateState(){
     for(int i = 0; i < this->data.getNumIterations(); i++){
-        //printf("Iteration: %i\n",i);
+        printf("Iteration: %i\n",i);
         set<int> validActions = this->getValidActions(this->state); // get all valid actions given the current state of the agent
         int action_taken = this->agent->getAction(validActions,this->state); // get the action that the agent took (defined in Agent.c and Agent.h)
 
@@ -129,22 +129,27 @@ int Environment::getStateY(){
 set<int> Environment::getValidActions(pair<int,int> state){
     set<int> actions;
     if(state.first - 1 >= 0){ // se é possivel ir para cima
-        actions.insert(acima);
+        if(this->map[state.first-1][state.second] != '#')
+            actions.insert(acima);
     }
     if(state.first + 1 < this->data.getWidth()){
-        actions.insert(abaixo);
+        if(this->map[state.first+1][state.second] != '#')
+            actions.insert(abaixo);
     }
     if(state.second - 1 >= 0){
-        actions.insert(esquerda);
+        if(this->map[state.first][state.second-1] != '#')
+            actions.insert(esquerda);
     }
     if(state.second + 1 < this->data.getHeight()){
-        actions.insert(direita);
+        if(this->map[state.first][state.second+1] != '#')
+            actions.insert(direita);
     }
     return actions;
 }
 
 void Environment::setNextState(pair<int,int> nextState){
     if(this->map[nextState.first][nextState.second] == '0' || this->map[nextState.first][nextState.second] == '&'){
+//        printf("\n\n%c\n\n",this->map[nextState.first][nextState.second]);
         SetRandomPosition(this->data.getWidth(),this->data.getHeight()); // set the agent in a valid random position in the map
     }
     else{
