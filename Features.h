@@ -23,9 +23,11 @@ class Features{
         Features(char **map,int map_width,int map_height);
         int getGhostsOneStepAway(pair<int,int> state);
         int add_valid_neighbors(std::list<pair<pair<int,int>,int> > *frontier,std::set<pair<int,int> > explored,std::pair<pair<int,int>,int> state);
-        int closestFood(pair<int,int> initial_state);
+        float closestFood(pair<int,int> initial_state);
         void getFeatures(pair<int,int> initial_state,int action);
         pair<int,int> calculateNextState(pair<int,int> initial_state,int action);
         std::set<string> getFeaturesKeys();
         bool isValid(pair<int,int> initial_state);
+        bool is_goal(pair<int,int> state);
+        float enemyNearby(pair<int,int> nextState);
 };
