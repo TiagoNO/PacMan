@@ -24,12 +24,15 @@ class ApproximateAgent:public QLearningAgent{
 
         void Update(pair<int,int> state,pair<int,int> nextState,int action,float reward,float NextQValue,float discount,float learning_rate){
             float difference = (float) learning_rate*(reward + discount*NextQValue - this->getQvalue(state,action));
-            printf("Q[%i][%i][%i] = %f\n",state.first,state.second,action,this->Qvalue[state.first][state.second][action]);
-            fprintf(this->log,"learning_r: %f,reward: %f,discount: %f,NextQValue: %f,Q[state] : %f\n",learning_rate,reward,discount,NextQValue,this->Qvalue[state.first][state.second][action]);
-            fprintf(this->log,"Q[%i][%i][%i] = %f\n",state.first,state.second,action,this->Qvalue[state.first][state.second][action]);
+        //    this->Qvalue[state.first][state.second][action] += difference;
             std::set<string> f = this->feature->getFeaturesKeys();
             for(std::set<string>::const_iterator i = f.begin(); i != f.end(); i++){
-                this->weights[(*i)] += difference*this->feature->features[(*i)];
-            }
+                if(this->weights.find((*i)) == this->weights.end())
+                {
+                    this->weights[(*i)] = difference*this->feature->features[(*i)];
+                }
+                else
+                    this->weights[(*i)] += difference*this->feature->features[(*i)];
+            }            
         }
 };
