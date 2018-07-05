@@ -3,7 +3,6 @@
 otmPolicy=$1
 agentPolicy=$2
 executable=$3
-map_dir=$4
 map=$5
 outFile="analyse_results.txt"
 
@@ -15,7 +14,7 @@ do
         echo $learningRate $discountRate
         while [ 1 ]
         do
-            ./$executable $map_dir$map $learningRate $discountRate $iterations 
+            ./$executable $map $learningRate $discountRate $iterations 
             diff $otmPolicy $agentPolicy > /dev/null 2>&1
             error=$?
             if [ $error -eq 0 ]
