@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string>
+#include <float.h>
 
 using namespace std;
 

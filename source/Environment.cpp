@@ -83,7 +83,7 @@ pair<int,int> Environment::getNextState(int action){
 
 void Environment::UpdateState(){
     for(int i = 0; i < this->data.getNumIterations(); i++){
-        printf("Iteration: %i\n",i);
+        //printf("Iteration: %i\n",i);
         set<int> validActions = this->getValidActions(this->state); // get all valid actions given the current state of the agent
         int action_taken = this->agent->getAction(validActions,this->state); // get the action that the agent took (defined in Agent.c and Agent.h)
 
