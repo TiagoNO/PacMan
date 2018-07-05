@@ -1,9 +1,11 @@
-otmPolicy="pi-star.txt"
-agentPolicy="pi.txt"
-executable="qlearning.sh"
-map="maps/pacmaze-01-tiny.txt"
-outFile="analyse_results.txt"
+#!/bin/bash
 
+otmPolicy=$1
+agentPolicy=$2
+executable=$3
+map_dir=$4
+map=$5
+outFile="analyse_results.txt"
 
 for learningRate in 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0
 do
@@ -13,7 +15,7 @@ do
         echo $learningRate $discountRate
         while [ 1 ]
         do
-            ./$executable $map $learningRate $discountRate $iterations 
+            ./$executable $map_dir$map $learningRate $discountRate $iterations 
             diff $otmPolicy $agentPolicy > /dev/null 2>&1
             error=$?
             if [ $error -eq 0 ]
