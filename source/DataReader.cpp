@@ -26,7 +26,7 @@ using namespace std;
             this->map[i] = (char *)malloc(this->m_size*sizeof(char));
         }
 
-        std::cout << "The size of the map is " << this->n_size << "x" << this->m_size << "." << endl;
+        //std::cout << "The size of the map is " << this->n_size << "x" << this->m_size << "." << endl;
         for(int i = 0; i < this->n_size; i++){
             fscanf(arq,"%s",this->map[i]);
         }
@@ -41,7 +41,7 @@ using namespace std;
         this->agent_type = argv[5];
         //this->log = fopen("data_log.txt","w");
 
-        printf("Dir: %s\nLearning rate: %f\nDiscount: %f\nIterations: %i\n",this->dir,this->learning_rate,this->discount,this->num_iterations);
+//        printf("Dir: %s\nLearning rate: %f\nDiscount: %f\nIterations: %i\n",this->dir,this->learning_rate,this->discount,this->num_iterations);
         this->setMap();
     }
 
