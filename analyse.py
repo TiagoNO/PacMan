@@ -1,5 +1,8 @@
 import filecmp
 import os
+import sys
+
+sys.setrecursionlimit(999999999)
 
 def searchIterationsValues(num_iterations,iter_jumps,map,agent_policy,otm_policy,command,learning_rate,discount_rate,x,y,z):
     print num_iterations,iter_jumps
