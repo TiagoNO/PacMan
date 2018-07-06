@@ -99,19 +99,17 @@ def getData(map_name,map_dir,agent_policy,iter_jumps,executable,range_values):
     
     return x_values,y_values,z_values
 
-def write_data(x_values,y_values,z_values):
-    maps = ["pacmaze-01-tiny.txt","pacmaze-02-mid-sparse.txt","pacmaze-03-tricky.txt"]
-    for map in maps:
-        arq = open("results_" + map,"w")
-        for x in x_values[map]:
-            arq.write(str(x))
-        arq.write("\n")
-        for y in y_values[map]:
-            arq.write(str(y))
-        arq.write("\n")
-        for z in z_values[map]:
-            arq.write(str(z))
-        arq.close()
+def write_data(x_values,y_values,z_values,map_name):
+    arq = open("results_" + map_name,"w")
+    for x in x_values[map_name]:
+        arq.write(str(x) + " ")
+    arq.write("\n")
+    for y in y_values[map_name]:
+        arq.write(str(y) + " ")
+    arq.write("\n")
+    for z in z_values[map_name]:
+        arq.write(str(z) + " ")
+    arq.close()
 
 n_maps = ["pacmaze-01-tiny.txt","pacmaze-02-mid-sparse.txt","pacmaze-03-tricky.txt"]
 n_executable = "qlearning.sh"
@@ -122,4 +120,4 @@ n_range_values = [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0]
 
 for map_n in n_maps:
     x,y,z = getData(map_n,n_map_dir,n_agent_policy,n_iter_jumps,n_executable,n_range_values)
-    write_data(x,y,z)
+    write_data(x,y,z,map_n)
