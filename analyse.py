@@ -45,7 +45,7 @@ def num_verifyDifference(agent_policy,otm_policy):
     return num_differences
 
 def searchIterationsValues(num_iterations,iter_jumps,map,agent_policy,otm_policy,command,learning_rate,discount_rate,x,y,z):
-    print num_iterations,iter_jumps
+    print learning_rate,discount_rate
     if num_iterations >= 9999990:
         if x.has_key(map):
             x[map] += [learning_rate]
